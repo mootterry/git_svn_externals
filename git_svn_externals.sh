@@ -1,11 +1,10 @@
 #!/bin/bash
-PROJECT_ROOT=$PWD
+PROJECT_ROOT=`git rev-parse --show-toplevel`
 VERBOSE=y
 #echo "It will get&update $PROJECT_ROOT"
 function message(){
 	[ "$VERBOSE" = y ] && echo $*
 }
-
 
 
 function git_svn_externals_clone() {
@@ -66,8 +65,8 @@ please input:'''
 			fi
 		else
 			echo "++++++ clone  $SUB_REPO_ABS_ROOT/$SUB_REPO_NAME from $SUB_REPO_URL"
-			cd "$SUB_REPO_ABS_ROOT"
-			git svn clone "$SUB_REPO_URL" "$SUB_REPO_NAME" $SUB_REPO_CTRL && break
+			[ -d "$SUB_REPO_ABS_ROOT" ] || mkdir -p "$SUB_REPO_ABS_ROOT"
+			cd "$SUB_REPO_ABS_ROOT" && git svn clone "$SUB_REPO_URL" "$SUB_REPO_NAME" $SUB_REPO_CTRL && break
 		fi
 	done
 }
